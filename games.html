@@ -5,6 +5,7 @@
             * {
                 background-color: black;
                 color: white;
+                text-align: center;
             }
             
             #top {
@@ -30,8 +31,15 @@
                 width: 85%;
             }
             
-            #all {
-
+            .games {
+                margin-left: 34%;
+                
+                width: 50%;
+                border: 1px solid white;
+            }
+            
+            select {
+                width: 15%;
             }
             
         </style>
@@ -58,15 +66,13 @@
             </div>
             
             <div id="center">
-                <h1>HOME</h1>
-                <p>Welcome to QuantumGlitchSoftware!</p>
-                <a href="games.html">GAMES</a>
-                <br>
-                <br>
-                <a href="engines.html">ENGINES</a>
-                <br>
-                <br>
-                <a href="about.html">ABOUT</a>
+                <h1>GAMES</h1>
+                <select>
+                    <option>Newest to Oldest</option>
+                    <option>Oldest to Newest</option>
+                </select>
+                <h1 class="games">XOR</h1>
+                <h1 class="games">AOTP</h1>
             </div>
         
         </div>

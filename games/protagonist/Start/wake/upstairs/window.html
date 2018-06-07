@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+	<!--| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Zyr & Tek | Art by: Tek |-->
+	
+	<!--Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY-->
+	<head>
+		
+		<!--Browser tab title-->
+		<title>QUANTUMGLITCHSOFTWARE</title>
+		
+		<!--Browser tab image-->
+		<link rel="shortcut icon" href="">
+		
+		<style>
+		* {
+			text-align: center;
+			color: white;
+			background-color: black;
+		}
+		
+		input {
+			color:black;
+			background-color: white;
+		}
+		
+		</style>
+	
+	</head>
+	
+	<body>
+		
+		<!--Heading-->
+		<h1>Adventures of The Protagonist.</h1>
+		
+		<hr>
+		
+		<!--Description-->
+		<p>You decide to open the window. You're kinda stressed<br>
+		out and you could use the fresh air. As you open the window<br>
+		and pull up the blinds, you see something out of the<br>
+		corner of your eye. You stop and look up. It's a flying<br>
+		saucer, and it's slowly dropping down towards you. The<br>
+		sky turns dark and grey clouds swirl around it. A door<br>
+		opens, and a beam of blue-green light shines out, entering<br>
+		your window and filling your room with a feeling of<br>
+		weightlessness. The tractor beam lifts you off the floor<br>
+		and starts to pull you out of the window.</p>
+		
+		<!--Image-->
+		<img src="window.JPG" width="250px">
+		
+		<!--Choices-->
+			<p>A) Hold on to something!</p>
+			<p>B) Let it take you.</p>
+		
+		<!--Buttons-->
+		<!--[NOTE: YOU CAN DELETE SOME OF THESE IF YOU WANT LESS CHOICES]-->
+		<input id="choiceA" type="button" value="A" onclick="choiceA();"/>
+		<input id="choiceB" type="button" value="B" onclick="choiceB();"/>
+		
+		<br>
+		<br>
+		
+		<!--Back Home-->
+		<a href="https://quantumglitchsoftware.github.io/Home.html">Home</a>
+		
+		<hr>
+		
+		<br>
+		
+		<!--Logo-->
+		<img src="textures/QGS2.jpg"/>
+		
+		<script>
+			//log credits
+			
+			//Game Credits
+			console.log("| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Zyr & Tek | Art by: Tek ");
+			
+			//Engine Credits
+			console.log("Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY");
+			
+			//chance variable
+			var chance = Math.random() * 100;
+			//alert(chance);
+			//Choice Buttons
+			
+			//Choice A
+			//[NOTE: FOR HELP WITH THIS PART GO TO quantumglitchsoftware.github.io/Engines/QGTEXTENGINE.html]
+			function choiceA() {
+				if (chance < 100) {
+					window.location = "window/escape.html";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice B
+			function choiceB() {
+				if (chance < 100) {
+					window.location = "window/accept.html";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice C
+			function choiceC() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice D
+			function choiceD() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+		</script>
+	
+	</body>
+
+</html>

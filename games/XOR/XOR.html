@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html>
+	<!--XOR created by QuantumGlitchSoftware-->
+	<head>
+        <style>
+			
+            tr, td {
+				border: 1px solid white;
+                height: 60px;
+                width: 60px;
+                
+            }
+            
+            * {
+                color: white;
+                background-color: black;
+            }
+            
+            #completion {
+                width: 655px;
+                height: 60px;
+                font-size: 200%;
+            }
+            
+            #level {
+                width: 90px;
+                text-align: center;
+                font-size: 100%;
+            }
+            
+            #grid, #sidebar, #topbar, #levelbar {
+                display: inline-block;
+            }
+            
+            #topbar {
+                font-weight: 900;
+                font-size: 25px;
+            }
+        
+            #sidebar2 {
+                height: 390px;
+                width: 90px;
+            }
+            
+            #side {
+                color: blue;
+                font-size: 200%;
+                text-align: center;
+            }
+            #enemySideBar {
+                color: red;
+                font-size: 200%;
+                text-align: center;
+            }
+            #enemy2SideBar {
+                color: #00e600;
+                font-size: 200%;
+                text-align: center;
+            }
+            #enemy3SideBar {
+                color: yellow;
+                font-size: 200%;
+                text-align: center;
+            }
+            #XOR {
+                width: 100%;
+            }
+        </style>
+	</head>
+	<body>
+		<div id="XOR">
+        <img src="xormini.bmp" height="50px"/>
+        <img src="qgs.bmp" height="50px"/>
+        <br>
+		
+        <table id="levelbar">
+            <tr>
+                <td id="level"><img src="level.bmp" width="60px">    0</td>
+            </tr>
+        </table>
+        <table id="topbar">
+            <tr>
+                <td id="completion"></td>
+            </tr>
+        </table>
+        <br>
+        
+        <!--Sidebar-->
+        <table id="sidebar">
+            <tr>
+                <td id="sidebar2">
+                    <p id="side">0,0</p>
+                    <p id="enemySideBar">9,5</p>
+                    <p id="enemy2SideBar"></p>
+                    <p id="enemy3SideBar"></p>
+                </td>
+            </tr>
+        </table>
+        
+        <!--Grid-->
+        <table id="grid">
+			
+            <!--row 5-->
+            <tr>
+                <td id="p0-5"></td>
+				<td id="p1-5"></td>
+                <td id="p2-5"></td>
+                <td id="p3-5"></td>
+                <td id="p4-5"></td>
+                <td id="p5-5"></td>
+                <td id="p6-5"></td>
+                <td id="p7-5"></td>
+                <td id="p8-5"></td>
+                <td id="p9-5"></td>
+                <td id="p10-5"></td>
+            </tr>
+			
+            <!--row 4-->
+            <tr>
+				<td id="p0-4"></td>
+				<td id="p1-4"></td>
+                <td id="p2-4"></td>
+                <td id="p3-4"></td>
+                <td id="p4-4"></td>
+                <td id="p5-4"></td>
+                <td id="p6-4"></td>
+                <td id="p7-4"></td>
+                <td id="p8-4"></td>
+                <td id="p9-4"></td>
+            </tr>
+            
+            <!--row 3-->
+            <tr>
+                <td id="p0-3"></td>
+                <td id="p1-3"></td>
+                <td id="p2-3"></td>
+                <td id="p3-3"></td>
+                <td id="p4-3"></td>
+                <td id="p5-3"></td>
+                <td id="p6-3"></td>
+                <td id="p7-3"></td>
+                <td id="p8-3"></td>
+                <td id="p9-3"></td>
+            </tr>
+            
+            <!--row 2-->
+            <tr>
+                <td id="p0-2"></td>
+                <td id="p1-2"></td>
+                <td id="p2-2"></td>
+                <td id="p3-2"></td>
+                <td id="p4-2"></td>
+                <td id="p5-2"></td>
+                <td id="p6-2"></td>
+                <td id="p7-2"></td>
+                <td id="p8-2"></td>
+                <td id="p9-2"></td>
+            </tr>
+            
+            <!--row 1-->
+            <tr>
+                <td id="p0-1"></td>
+                <td id="p1-1"></td>
+                <td id="p2-1"></td>
+                <td id="p3-1"></td>
+                <td id="p4-1"></td>
+                <td id="p5-1"></td>
+                <td id="p6-1"></td>
+                <td id="p7-1"></td>
+                <td id="p8-1"></td>
+                <td id="p9-1"></td>
+            </tr>
+            
+            <!--row 0-->
+            <tr>
+                <td id="p0-0"></td>
+                <td id="p1-0"></td>
+                <td id="p2-0"></td>
+                <td id="p3-0"></td>
+                <td id="p4-0"></td>
+                <td id="p5-0"></td>
+                <td id="p6-0"></td>
+                <td id="p7-0"></td>
+                <td id="p8-0"></td>
+                <td id="p9-0"></td>
+            </tr>
+        </table>
+        <img id="jerhy"/>
+        </div>
+        <audio src="meteor.wav" autoplay="autoplay" loop="loop"></audio>
+        <script>
+//XOR developed by SUPERGLITCHED posted to QUANTUMGLITCHSOFTWARE.GITHUB.IO
+
+//BLUE SQUARE MOVEMENT
+        //set the blue starting coordinates
+        //blue position
+        var position = "p0-0";
+		//blue position on X axis
+        var positionXAxis = 0;
+		//blue position on Y axis
+        var positionYAxis = 0;
+        
+        //player indicator position
+        //top
+        var positionIndicatorTop = "p0-5";
+        //bottom
+        var positionIndicatorBottom = "p0-0";
+        //left
+        var positionIndicatorLeft = "p0-0";
+        //right
+        var positionIndicatorRight = "p9-0";
+            
+        //disable senses default
+        //squares
+        var disableSquares = false;
+        //indicators
+        var disableIndicators = false;
+        
+        var cheats;
+        //bind keys
+        window.addEventListener("keyup", binds, false);
+        function binds(e) {
+            
+            //test for which key pressed and set coordinates
+            if (e.keyCode == "40") {
+                //go down
+                positionYAxis = positionYAxis - 1;
+            } else if (e.keyCode == "39") {
+                //go right
+                positionXAxis = positionXAxis + 1;
+            } else if (e.keyCode == "38") {
+                //go up
+                positionYAxis = positionYAxis + 1;
+            } else if (e.keyCode == "37") {
+                //go left
+                positionXAxis = positionXAxis - 1;
+            } else if (e.keyCode == "17") {
+                //commands
+                cheats = prompt("cmd prompt");
+            }
+            
+            //collision detection top
+            if (positionYAxis > 5) {
+                positionYAxis = 5;
+            }
+            
+            //collision detection bottom
+            if (positionYAxis < 0) {
+                positionYAxis = 0;
+            }
+            
+            //collision detection left
+            if (positionXAxis < 0) {
+                positionXAxis = 0;
+            }
+            
+            //collision detection right
+            if (positionXAxis > 9) {
+                positionXAxis = 9;
+            }
+            
+            //puts X and Y coordinates together blue square
+            position = "p" + positionXAxis + "-" + positionYAxis;
+            
+            //indicator coordinates
+            //top
+            positionIndicatorTop = "p" + positionXAxis + "-" + 5;
+            //bottom
+            positionIndicatorBottom = "p" + positionXAxis + "-" + 0;
+            //left
+            positionIndicatorLeft = "p" + 0 + "-" + positionYAxis;
+            //right
+            positionIndicatorRight = "p" + 9 + "-" + positionYAxis;
+            
+            //sets sidebar coordinates
+            var sideBarPosition = positionXAxis + "," + positionYAxis;
+            document.getElementById("side").innerHTML = sideBarPosition;
+        }
+		
+        
+//ENEMY 1 MOVEMENT
+        //enemy coordinates default
+        //coords
+        var enemyPosition = "p9-5";
+        //X axis
+        var enemyPositionXAxis = 9;
+        //Y axis
+        var enemyPositionYAxis = 5;
+        
+        //indicator position
+        //top
+        var enemyPositionIndicatorTop = "p9-5";
+        //bottom
+        var enemyPositionIndicatorBottom = "p9-0";
+        //left
+        var enemyPositionIndicatorLeft = "p0-5";
+        //right
+        var enemyPositionIndicatorRight = "p9-5";
+        
+        
+        
+        //set interval for enemy movement function every half second
+        var enemyInterval = setInterval(enemyMove, 1000);
+        function enemyMove() {
+            
+            //genarates random number from 0-1
+            var chance = Math.floor(Math.random() * 2);
+            
+            //move towards player on X axis if chance = 0
+            if (chance === 0) {
+                //if enemy is to the left of the player, move right
+                if (enemyPositionXAxis < positionXAxis) {
+                    enemyPositionXAxis = enemyPositionXAxis + 1;
+                }
+                //if enemy is to the right of the player, move left
+                else if (enemyPositionXAxis > positionXAxis) {
+                    enemyPositionXAxis = enemyPositionXAxis - 1;
+                } else {
+                    //if enemy is on the same axis, call stalemate function
+                    stalemate();
+                }
+            }
+            //move towards player on Y axis if chance = 1
+            else if (chance === 1) {
+                //if enemy is below the player, move up
+                if (enemyPositionYAxis < positionYAxis) {
+                    enemyPositionYAxis = enemyPositionYAxis + 1;
+                }
+                //if enemy is above the player, move down
+                else if (enemyPositionYAxis > positionYAxis) {
+                    enemyPositionYAxis = enemyPositionYAxis - 1;
+                } else {
+                    //if enemy is on the same axis, call stalemate function
+                    stalemate();
+                }
+            }
+            
+            
+            //stalemate function moves enemy towards the player on the other axis if they are already on the same chosen axis. essentially, this code is identical to the code above, it is just reversed, so if chance = 0, it would be like making chance = 1. this way when the square is on the same axis, it doesn't freeze or get confused.
+            function stalemate() {
+                //move towards player on Y axis if chance = 1
+                if (chance === 0) {
+                    //if enemy is below the player, move up
+                    if (enemyPositionYAxis < positionYAxis) {
+                        enemyPositionYAxis = enemyPositionYAxis + 1;
+                    }
+                    //if enemy is above the player, move down
+                    else if (enemyPositionYAxis > positionYAxis) {
+                        enemyPositionYAxis = enemyPositionYAxis - 1;
+                    }
+                }
+                //move towards player on X axis if chance = 0
+                else {
+                    //if enemy is to the left of the player, move right
+                    if (enemyPositionXAxis < positionXAxis) {
+                        enemyPositionXAxis = enemyPositionXAxis + 1;
+                    }
+                    //if enemy is to the right of the player, move left
+                    else if (enemyPositionXAxis > positionXAxis) {
+                        enemyPositionXAxis = enemyPositionXAxis - 1;
+                    }
+                }
+            }
+            
+            //add enemy coordinates
+            enemyPosition = "p" + enemyPositionXAxis + "-" + enemyPositionYAxis;
+            
+            //enemy indicator coordinates
+            //top
+            enemyPositionIndicatorTop = "p" + enemyPositionXAxis + "-" + 5;
+            //bottom
+            enemyPositionIndicatorBottom = "p" + enemyPositionXAxis + "-" + 0;
+            //left
+            enemyPositionIndicatorLeft = "p" + 0 + "-" + enemyPositionYAxis;
+            //right
+            enemyPositionIndicatorRight = "p" + 9 + "-" + enemyPositionYAxis;
+            
+            //sidebar enemy coordinates
+            //put comma inbetween the enemy coordinates
+            var enemySideBarPosition = enemyPositionXAxis + "," + enemyPositionYAxis;
+            //put the coordinates onto the sidebar
+            document.getElementById("enemySideBar").innerHTML = enemySideBarPosition;
+        }
+
+//ENEMY 2 MOVEMENT
+        //enemy2 coordinates default
+        //coords
+        var enemy2Position = "p10-5";
+        //X axis
+        var enemy2PositionXAxis = 10;
+        //Y axis
+        var enemy2PositionYAxis = 5;
+        
+        //indicator position
+        //top
+        var enemy2PositionIndicatorTop = "p9-5";
+        //bottom
+        var enemy2PositionIndicatorBottom = "p9-0";
+        //left
+        var enemy2PositionIndicatorLeft = "p0-5";
+        //right
+        var enemy2PositionIndicatorRight = "p9-5";
+        
+        //enemy2
+        var enemy2;
+
+        function enemy2Move() {
+            
+            //move towards player on X axis
+            //if enemy is to the left of the player, move right
+            if (enemy2PositionXAxis < positionXAxis) {
+                enemy2PositionXAxis = enemy2PositionXAxis + 1;
+            }
+            //if enemy is to the right of the player, move left
+            else if (enemy2PositionXAxis > positionXAxis) {
+                enemy2PositionXAxis = enemy2PositionXAxis - 1;
+            }
+            //if enemy is above the player, move down
+            else if (enemy2PositionYAxis > positionYAxis) {
+                enemy2PositionYAxis = enemy2PositionYAxis - 1;
+            }
+            //if enemy is below the player, move up
+            else if (enemy2PositionYAxis < positionYAxis) {
+                enemy2PositionYAxis = enemy2PositionYAxis + 1;
+            }
+            
+            
+
+            //add enemy coordinates
+            enemy2Position = "p" + enemy2PositionXAxis + "-" + enemy2PositionYAxis;
+            
+            //enemy2 indicator coordinates
+            //top
+            enemy2PositionIndicatorTop = "p" + enemy2PositionXAxis + "-" + 5;
+            //bottom
+            enemy2PositionIndicatorBottom = "p" + enemy2PositionXAxis + "-" + 0;
+            //left
+            enemy2PositionIndicatorLeft = "p" + 0 + "-" + enemy2PositionYAxis;
+            //right
+            enemy2PositionIndicatorRight = "p" + 9 + "-" + enemy2PositionYAxis;
+            
+            //sidebar enemy coordinates
+            //put comma inbetween the enemy coordinates
+            var enemy2SideBarPosition = enemy2PositionXAxis + "," + enemy2PositionYAxis;
+            //put the coordinates onto the sidebar
+            document.getElementById("enemy2SideBar").innerHTML = enemy2SideBarPosition;
+        }
+
+//ENEMY 3 MOVEMENT
+        //enemy3 coordinates default
+        //coords
+        var enemy3Position = "p10-5";
+        //X axis
+        var enemy3PositionXAxis = 10;
+        //Y axis
+        var enemy3PositionYAxis = 5;
+        
+        //indicator position
+        //top
+        var enemy3PositionIndicatorTop = "p9-5";
+        //bottom
+        var enemy3PositionIndicatorBottom = "p9-0";
+        //left
+        var enemy3PositionIndicatorLeft = "p0-5";
+        //right
+        var enemy3PositionIndicatorRight = "p9-5";
+        
+        //enemy3
+        var enemy3;
+
+        function enemy3Move() {
+            
+            //move towards player on Y axis
+            //if enemy is above the player, move down
+            if (enemy3PositionYAxis > positionYAxis) {
+                enemy3PositionYAxis = enemy3PositionYAxis - 1;
+            }
+            //if enemy is below the player, move up
+            else if (enemy3PositionYAxis < positionYAxis) {
+                enemy3PositionYAxis = enemy3PositionYAxis + 1;
+            }
+            //if enemy is to the left of the player, move right
+            else if (enemy3PositionXAxis < positionXAxis) {
+                enemy3PositionXAxis = enemy3PositionXAxis + 1;
+            }
+            //if enemy is to the right of the player, move left
+            else if (enemy3PositionXAxis > positionXAxis) {
+                enemy3PositionXAxis = enemy3PositionXAxis - 1;
+            }      
+            
+
+            //add enemy coordinates
+            enemy3Position = "p" + enemy3PositionXAxis + "-" + enemy3PositionYAxis;
+            
+            //enemy3 indicator coordinates
+            //top
+            enemy3PositionIndicatorTop = "p" + enemy3PositionXAxis + "-" + 5;
+            //bottom
+            enemy3PositionIndicatorBottom = "p" + enemy3PositionXAxis + "-" + 0;
+            //left
+            enemy3PositionIndicatorLeft = "p" + 0 + "-" + enemy3PositionYAxis;
+            //right
+            enemy3PositionIndicatorRight = "p" + 9 + "-" + enemy3PositionYAxis;
+            
+            //sidebar enemy coordinates
+            //put comma inbetween the enemy coordinates
+            var enemy3SideBarPosition = enemy3PositionXAxis + "," + enemy3PositionYAxis;
+            //put the coordinates onto the sidebar
+            document.getElementById("enemy3SideBar").innerHTML = enemy3SideBarPosition;
+        }
+            
+        
+//LEVEL COUNTER / COMPLETION BAR
+        //ammount of "|"s in the completion bar
+        var completionPercent = "";
+        //the text displayed in the level counter
+        var levelDisplay = "Level: 0";
+        //the level number itself
+        var level = 0;
+        
+        //timer interval set to run function every half second
+        var timer = setInterval(timer, 500);
+        function timer() {
+            //add one | to the bar
+            completionPercent = completionPercent + "|";
+            //update the html tag
+            document.getElementById("completion").innerHTML = completionPercent;
+            //test for timer full
+            if (completionPercent === "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||") {
+                
+                //reset bar
+                completionPercent = "";
+                
+                //add +1 to level
+                level = level + 1;
+                //combine "LEVEL:" and level number
+                levelDisplay = "<img src='level.bmp' width='60px'>    " + level;
+                //add to the display
+                document.getElementById("level").innerHTML = levelDisplay;
+            }
+            
+            //level paramaters
+            //level 0 is default settings, no need to change
+            //level 1
+            if (level === 1) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = false;
+            }
+            
+            //level 2
+            if (level === 2) {
+                //toggle squares
+                disablesSquares = true;
+                //toggle indicators
+                disableIndicators = true;
+            }
+            
+            //level 3
+            if (level === 3 && completionPercent === "|") {
+                //toggle squares
+                disableSquares = false;
+                //toggle indicators
+                disableIndicators = false;
+            
+                //enemy
+                //set interval for enemy2 movement function every second
+                var enemy2Interval = setInterval(enemy2Move, 1000);
+                
+                enemy2Position = "p9-5";
+                enemy2PositionXAxis = 9;
+                //enable enemy
+                enemy2 = true;
+            }
+            
+            //level 4
+             if (level === 4) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = false;
+            }
+            
+            //level 5
+             if (level === 5) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = true;
+            }
+            
+            //level 6
+            if (level === 6 && completionPercent === "|") {
+                //toggle squares
+                disableSquares = false;
+                //toggle indicators
+                disableIndicators = false;
+                
+                //enemy
+                //set interval for enemy3 movement function every second
+                var enemy3Interval = setInterval(enemy3Move, 1000);
+                
+                enemy3Position = "p9-5";
+                enemy3PositionXAxis = 9;
+                //enable enemy
+                enemy3 = true;
+            }
+            
+            //level 7
+             if (level === 7) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = false;
+            }
+            
+            //level 8
+             if (level === 8) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = true;
+            }
+            
+            //level 9
+             if (level === 9) {
+                //toggle squares
+                disableSquares = false;
+                //toggle indicators
+                disableIndicators = false;
+            }
+            
+            //level 10
+            if (level === 10) {
+                //toggle squares
+                disableSquares = true;
+                //toggle indicators
+                disableIndicators = true;
+                
+                //TOGGLE COORDS MWAHAHAHA
+                document.getElementById("side").style.color = "black";
+                document.getElementById("enemySideBar").style.color = "black";
+                document.getElementById("enemy2SideBar").style.color = "black";
+                document.getElementById("enemy3SideBar").style.color = "black";
+            }
+        }
+        
+        
+//Visual Movment
+        //variable used in the for color loop
+        var movementLoop;
+        //variable element td tags
+        var td = document.getElementsByTagName("td");
+        
+        var gameover = false;
+            
+        //call function every tick
+        var clockinterval = setInterval(clock, 0);
+        //function resets background and then colors what needs to be colored
+        function clock() {
+            //color in everything
+            //set movementloop to every number in td array
+            for (movementLoop = 0; movementLoop < 64; movementLoop++) {
+                //set td tag to background color black
+                td[movementLoop].style.backgroundColor = "black";
+                td[movementLoop].style.border = "solid 1px white";
+                
+                 td[13].style.border = "solid 1px black";
+                
+                //enemy collisions
+                if (enemyPosition === position || enemy2Position === position || enemy3Position === position) {
+                    if (gameover === false) {
+                        gameover = true;
+                        //links to  gameover page
+                        window.location = "gameover.html";
+                    }
+                }
+            
+            }
+            //squares
+            //color player square
+            document.getElementById(position).style.backgroundColor = "blue";
+            //color enemy square
+            document.getElementById(enemyPosition).style.backgroundColor = "red";
+            //color enemy2 square
+            //detect enemy2
+            if (enemy2) {
+                document.getElementById(enemy2Position).style.backgroundColor = "#00e600";
+            }
+            //color enemy3 square
+            //detect enemy3
+            if (enemy3) {
+                document.getElementById(enemy3Position).style.backgroundColor = "yellow";
+            }
+            
+            //indicators
+            
+            //indicators enemy
+            //top
+            document.getElementById(enemyPositionIndicatorTop).style.borderTop = "solid 3px #b30000";
+            //bottom
+            document.getElementById(enemyPositionIndicatorBottom).style.borderBottom = "solid 3px #b30000";
+            //left
+            document.getElementById(enemyPositionIndicatorLeft).style.borderLeft = "solid 3px #b30000";
+            //right
+            document.getElementById(enemyPositionIndicatorRight).style.borderRight = "solid 3px #b30000";
+            
+            //indicators enemy2
+            if (enemy2) {
+                //top
+                document.getElementById(enemy2PositionIndicatorTop).style.borderTop = "solid 3px #006600";
+                //bottom
+                document.getElementById(enemy2PositionIndicatorBottom).style.borderBottom = "solid 3px #006600";
+                //left
+                document.getElementById(enemy2PositionIndicatorLeft).style.borderLeft = "solid 3px #006600";
+                //right
+                document.getElementById(enemy2PositionIndicatorRight).style.borderRight = "solid 3px #006600";
+            }
+            
+            //indicators enemy3
+            if (enemy3) {
+                //top
+                document.getElementById(enemy3PositionIndicatorTop).style.borderTop = "solid 3px #a5a200";
+                //bottom
+                document.getElementById(enemy3PositionIndicatorBottom).style.borderBottom = "solid 3px #a5a200";
+                //left
+                document.getElementById(enemy3PositionIndicatorLeft).style.borderLeft = "solid 3px #a5a200";
+                //right
+                document.getElementById(enemy3PositionIndicatorRight).style.borderRight = "solid 3px #a5a200";
+            }
+            
+            //indicators player
+            //top
+            document.getElementById(positionIndicatorTop).style.borderTop = "solid 3px #000066";
+            //bottom
+            document.getElementById(positionIndicatorBottom).style.borderBottom = "solid 3px #000066";
+            //left
+            document.getElementById(positionIndicatorLeft).style.borderLeft = "solid 3px #000066";
+            //right
+            document.getElementById(positionIndicatorRight).style.borderRight = "solid 3px #000066";
+            
+            
+            //block senses
+            //block squares
+            if (disableSquares) {
+                //set movementloop to every number in td array
+                for (movementLoop = 0; movementLoop < 64; movementLoop++) {
+                //set td tag to background color black
+                td[movementLoop].style.backgroundColor = "black";
+                }
+            }
+            //block indicators
+            if (disableIndicators) {
+                //set movementloop to every number in td array
+                for (movementLoop = 0; movementLoop < 64; movementLoop++) {
+                //set td tag to border color normal
+                td[movementLoop].style.border = "solid 1px white";
+                    
+                td[13].style.border = "solid 1px black";
+                }
+            }
+        }
+        
+        //commands
+        var cmdinterval;
+        cmdinterval = setInterval(cmd, 1);
+        
+        function cmd() {
+            //QGS TEST
+            if (cheats === "QGTST") {
+                alert("TEST");
+            
+            //QGS NEXT LEVEL
+            } else if (cheats === "QGNL") {
+                completionPercent = "|||||||||||||||||||||||||||||||||||||||||||||||||||||||||";
+            
+            //QG INVINSIVILITY
+            } else if (cheats === "QGDQD") {
+                gameover = true;
+            
+            //QG 404
+            } else if (cheats === "QG404") {
+                window.location="404.yourmom";
+            
+            } else if (cheats === "QGJERHY") {
+                document.getElementById("jerhy").src = "JERHY.DIB"; 
+            
+            
+            } else if (cheats === "QGIIIII") {
+                document.getElementById("jerhy").src = "I.bmp"; 
+            } else if (cheats === "QGVROOM") {
+		    document.getElementById("jerhy").src = "vroom.bmp"; 
+	    }
+            
+            cheats = null;
+        }
+        </script>
+    </body>
+</html>

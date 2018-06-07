@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+	<!--| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Zyr & Tek | Art by: Tek |-->
+	
+	<!--Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY-->
+	<head>
+		
+		<!--Browser tab title-->
+		<title>QUANTUMGLITCHSOFTWARE</title>
+		
+		<!--Browser tab image-->
+		<link rel="shortcut icon" href="">
+		
+		<style>
+		* {
+			text-align: center;
+			color: white;
+			background-color: black;
+		}
+		
+		input {
+			color:black;
+			background-color: white;
+		}
+		
+		</style>
+	
+	</head>
+	
+	<body>
+		
+		<!--Heading-->
+		<h1>Adventures of The Protagonist.</h1>
+		
+		<hr>
+		
+		<!--Description-->
+		<p>You think being a player would be more fun, so you<br>
+		choose that instead of being the dungeon master. You<br>
+		fill out your character sheet, and the game starts. The<br>
+		first enemies you encounter are a band of Orcs. They<br>
+		corner you, and you have no choice but to fight back.<br>
+		You can only hope for a good roll.</p>
+		
+		<!--Image-->
+		<img src="dice.jpeg" width="250px">
+		
+		<!--Choices-->
+			<p>A) Roll the dice.</p>
+		
+		<!--Buttons-->
+		<!--[NOTE: YOU CAN DELETE SOME OF THESE IF YOU WANT LESS CHOICES]-->
+		<input id="choiceA" type="button" value="A" onclick="choiceA();"/>
+
+		<br>
+		<br>
+		
+		<!--Back Home-->
+		<a href="https://quantumglitchsoftware.github.io/Home.html">Home</a>
+		
+		<hr>
+		
+		<br>
+		
+		<!--Logo-->
+		<img src="textures/QGS2.jpg"/>
+		
+		<script>
+			//log credits
+			
+			//Game Credits
+			console.log("| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Zyr & Tek | Art by: Tek ");
+			
+			//Engine Credits
+			console.log("Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY");
+			
+			//chance variable
+			var chance = Math.random() * 100;
+			//alert(chance);
+			//Choice Buttons
+			
+			//Choice A
+			//[NOTE: FOR HELP WITH THIS PART GO TO quantumglitchsoftware.github.io/Engines/QGTEXTENGINE.html]
+			function choiceA() {
+				if (chance < 50) {
+					window.location = "player/good.html";
+				} else {
+					window.location = "player/fail.html";
+				}
+			}
+			
+			//Choice B
+			function choiceB() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice C
+			function choiceC() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice D
+			function choiceD() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+		</script>
+	
+	</body>
+
+</html>

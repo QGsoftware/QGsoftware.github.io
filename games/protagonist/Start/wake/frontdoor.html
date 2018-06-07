@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+	<!--| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Super, Zyr & Tek | Art by: Tek |-->
+	
+	<!--Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY-->
+	<head>
+		
+		<!--Browser tab title-->
+		<title>QUANTUMGLITCHSOFTWARE</title>
+		
+		<!--Browser tab image-->
+		<link rel="shortcut icon" href="">
+		
+		<style>
+		* {
+			text-align: center;
+			color: white;
+			background-color: black;
+		}
+		
+		input {
+			color:black;
+			background-color: white;
+		}
+		
+		</style>
+	
+	</head>
+	
+	<body>
+		
+		<!--Heading-->
+		<h1>Adventures of The Protagonist.</h1>
+		
+		<hr>
+		
+		<!--Description-->
+		<p>You approach the door handle slowly, carefully, but anxiously,<br>
+		wanting to know your future- your true destiny and meaning to this<br>
+		world! You burst open the door only to find something peculiar- the<br>
+		little home seems to be floating in an endless darkness- an eternal<br>
+		void of simply nothing. Your eyes are drawn to the nothingness,<br>
+		absorbing it in, capturing it. Is this what this journey led you to?<br>
+		Nothing?</p>
+		
+		<!--Image-->
+		<img src="house.jpeg" width="250px">
+		
+		<!--Choices-->
+			<p>A) Jump</p>
+			<p>B) Go back inside</p>
+		
+		<!--Buttons-->
+		<!--[NOTE: YOU CAN DELETE SOME OF THESE IF YOU WANT LESS CHOICES]-->
+		<input id="choiceA" type="button" value="A" onclick="choiceA();"/>
+		<input id="choiceB" type="button" value="B" onclick="choiceB();"/>
+		
+		<br>
+		<br>
+		
+		<!--Back Home-->
+		<a href="https://quantumglitchsoftware.github.io/Home.html">Home</a>
+		
+		<hr>
+		
+		<br>
+		
+		<!--Logo-->
+		<img src="textures/QGS2.jpg"/>
+		
+		<script>
+			//log credits
+			
+			//Game Credits
+			console.log("| Game Developed by Quantumglitch Software | quantumglitchsoftware.github.io Copyright CC BY | Programming by: Super| Writing by: Super, Zyr & Tek | Art by: Tek ");
+			
+			//Engine Credits
+			console.log("Engine developed by QuantumGlitched Software quantumglitchsoftware.github.io Copyright CC BY");
+			
+			//chance variable
+			var chance = Math.random() * 100;
+			//alert(chance);
+			//Choice Buttons
+			
+			//Choice A
+			//[NOTE: FOR HELP WITH THIS PART GO TO quantumglitchsoftware.github.io/Engines/QGTEXTENGINE.html]
+			function choiceA() {
+				if (chance < 100) {
+					window.location = "frontdoor/void.html";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice B
+			function choiceB() {
+				if (chance < 100) {
+					window.location = "frontdoor/insane.html";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice C
+			function choiceC() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}
+			
+			//Choice D
+			function choiceD() {
+				if (chance < 100) {
+					window.location = "";
+				} else {
+					window.location = "";
+				}
+			}				
+			/*	      .,-:;//;:=,
+			          . :H@@@MM@M#H/.,+%;,
+			       ,/X+ +M@@M@MM%=,-%HMMM@X/,
+			     -+@MM; $M@@MH+-,;XMMMM@MMMM@+-
+			    ;@M@@M- XM@X;. -+XXXXXHHH@M@M#@/.
+			  ,%MM@@MH ,@%=             .---=-=:=,.
+			  =@#@@@MX.,                -%HX$$%%%:;
+			 =-./@M@M$                   .;@MMMM@MM:
+			 X@/ -$MM/                    . +MM@@@M$
+			,@M@H: :@:                    . =X#@@@@-
+			,@@@MMX, .                    /H- ;@M@M=
+			.H@@@@M@+,                    %MM+..%#$.
+			 /MMMM@MMH/.                  XM@MH; =;
+			  /%+%$XHH@$=              , .H@@@@MX,
+			   .=--------.           -%H.,@@@@@MX,
+			   .%MM@@@HHHXX$$$%+- .:$MMX =M@@MM%.
+			     =XMMM@MM@MM#H;,-+HMM@M+ /MMMX=
+			       =%@M@M#@$-.=$@MM@@@M; %M%=
+			         ,:+$+-,/H#MMMMMMM@= =,
+			               =++%%%%+/:-.		*/	
+		</script>
+	
+	</body>
+
+</html>

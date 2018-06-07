@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            * {
+                background-color: black;
+                color: white;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <br>
+        <img src="side.png" width="16%">
+        <img src="Xor(PRESSXTOSTART).bmp" width="65%" id="flicker"/>
+        <img src="side.png" width="16%">
+        <audio src="XOR.wav" autoplay="autoplay" loop="loop"></audio>
+        <script>
+            window.addEventListener("keyup", binds, false);
+            function binds(e) {
+                //test for X pressed
+                if (e.keyCode == "88") {
+                    //link
+                    window.location = "XOR.html";
+                }
+                //test for Y pressed
+                if (e.keyCode == "89") {
+                    //link
+                    //window.location = "XOR.html";
+                    alert("Deathmatch coming soon!");
+                }
+                
+                //test for Z pressed
+                if (e.keyCode == "90") {
+                    alert("XOR is a strategy, reaction, and puzzle game based around enemy patterns, movement on a grid, and visualising coordinates in your mind. Named after the logic gate, XOR will challenge you to think differently in a two dimensional arena.\n\nCreated by QuantumGlitchSoftware\n\nhttps://qgsoftware.github.io/\n\nThis work is licensed under a Creative Commons Attribution 4.0 International License.\n\n\n\n\n");
+                }
+            }
+            
+            var interval = setInterval(flash, 400);
+            
+            var flick = false;
+            function flash() {
+                if (flick) {
+                    document.getElementById("flicker").src = "Xor(PRESSXTOSTART).bmp";
+                    flick = false;
+                } else {
+                    document.getElementById("flicker").src = "XORhomescreen.png";
+                    flick = true;
+                }
+            }
+        </script>
+    </body>
+</html>

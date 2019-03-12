@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <!--QGS tile engine v0.3 by qgsoftware.net-->
+    <style>
+        * {
+            text-align: center;
+        }
+        canvas {
+            height: 97vh;
+            
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: pixelated;
+        }
+    </style>
+    <body>
+        <!--PASTE CANVAS TAG UNDER HERE [note: you can change size and position with css or putting the tag where you want]-->
+        
+        
+        <br>
+        <!--PASTE IMAGE TAGS UNDER HERE [note: you can hide this with css]-->
+        
+        
+        <script>
+            //PASTE CANVAS VARIABLES UNDER HERE
+            
+            //PASTE TILES UNDER HERE
+            
+            //canvas info
+            var canvas = document.getElementById(canvas_name);
+            var ctx = canvas.getContext("2d");
+            ctx.translate(canvas.width / 2,canvas.height / 2);
+            
+            //canvas dimensions
+            document.getElementById(canvas_name).width = grid_width;
+            document.getElementById(canvas_name).height = grid_height;
+            
+            //render stuff
+            var change_tile = 0;
+            window.setInterval(function(){ render(); }, 0);
+            function render() {
+                var new_tile_num = 0;
+                var num_of_tiles = tiles.length - 1;
+                var loop = true;
+                while (loop) {
+                    if (new_tile_num <= num_of_tiles) {
+                        change_tile = tiles[new_tile_num];
+                        change_tile.x = change_tile.x;
+                        change_tile.y = change_tile.y;
+                        ctx.imageSmoothingEnabled = false;
+                        develop();
+                        new_tile_num = new_tile_num + 1;
+                    } else {
+                        loop = false;
+                    }
+                }
+            }
+            
+            //developer function
+            //NOTE: attributes of each tile are
+            //x:
+            //y:
+            //type:
+            function develop() {
+                //your code goes here
+                
+                
+                
+                
+                //this is the line that finally renders the tile
+                ctx.drawImage(change_tile.image, change_tile.x + grid_width/2, change_tile.y + grid_height/2);
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html>
+    <!--QGS tile engine v0.3 by qgsoftware.net-->
+    <style>
+        * {
+            text-align: center;
+            background-color: #000033;
+        }
+        canvas {
+            height: 98vh;
+            
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -o-crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: pixelated;
+        }
+        #images {
+            display: none;
+        }
+    </style>
+    <body>
+        <!--PASTE CANVAS TAG UNDER HERE [note: you can change size and position with css or putting the tag where you want]-->
+        <canvas id='game'></canvas>
+        
+        <br>
+        <!--PASTE IMAGE TAGS UNDER HERE [note: you can hide this with css]-->
+        <div id="images">
+            <img src="images/stone.bmp" id="stone">
+            <img src="images/dark.bmp" id="dark">
+            <img src="images/stone_bricks.bmp" id="stonebricks">
+            <img src="images/wood.bmp" id="wood">
+            <img src="images/barrel.bmp" id="barrel">
+            <img src="images/chest.bmp" id="chest">
+            <img src="images/monster.png" id="monster">
+            
+            <img src="images/player_front.png" id="player">
+            <img src="images/player_back.png" id="player_b">
+            <img src="images/player_right.png" id="player_r">
+            <img src="images/player_left.png" id="player_l">
+            <img src = "images/hitbox.png" id = "hitbox">
+        
+            <img src="images/door.bmp" id="door">
+            <img src="images/yellow_door.bmp" id="yellowdoor">
+            <img src="images/red_door.bmp" id="reddoor">
+            <img src="images/green_door.bmp" id="greendoor">
+            <img src="images/orange_door.bmp" id="orangedoor">
+        
+            <img src="images/yellow_key.png" id="yellowkey">
+            <img src="images/red_key.png" id="redkey">
+            <img src="images/green_key.png" id="greenkey">
+            <img src="images/orange_key.png" id="orangekey">
+            
+            <img src="images/player_spawn.bmp" id="playerspawn">
+            
+            <img src="images/arrow_n.png" id="arrow_n">
+            <img src="images/arrow_s.png" id="arrow_s">
+            <img src="images/arrow_w.png" id="arrow_w">
+            <img src="images/arrow_e.png" id="arrow_e">
+            <img src="images/cannonball.png" id = "cannonball">
+            <img src="images/lazer_ns.png" id = "lazer_ns">
+            <img src="images/lazer_ew.png" id = "lazer_ew">
+            
+            <img src="images/health.png" id="health">
+            <img src="images/hammer.png" id="imghammer">
+            <img src="images/bow.png" id="imgbow">
+            <img src="images/crossbow.png" id="imgcrossbow">
+            <img src="images/cannon.png" id="imgcannon">
+            <img src="images/raycaster.png" id="imgraycaster">
+            
+            <img src="images/a_bow.png" id="ibow_ammo">
+            <img src="images/a_crossbow.png" id="icrossbow_ammo">
+            <img src="images/a_cannon.png" id="icannon_ammo">
+            <img src="images/a_raycast.png" id="iraycast_ammo">
+            <img src="images/apple.png" id="health_pickup">
+            
+            <img src="images/vnn.bmp" id="tyler">
+            
+            <img src="images/grass.bmp" id="grass">
+            <img src="images/water.bmp" id="water">
+            <img src="images/tjerhy.png" id="jerhy">
+            <img src="images/zebra.png" id="zebra">
+            <img src="images/mule.png" id="mule">
+            <img src="images/donkey.png" id="donkey">
+            <img src="images/camel.png" id="camel">
+            <img src="images/ht.png" id="crab">
+            <img src="images/newell.jpg" id="newell">
+            
+        </div>
+            
+        <!--!!!maps-->
+        <script src="maps/keydoortest.js"></script>
+        <script src="maps/testmp.js"></script>
+        <script src="maps/lab_lvl_00.js"></script>
+        <script src="maps/lab_lvl_01.js"></script>
+        <script src="maps/lab_lvl_02.js"></script>
+        <script src="maps/lab_lvl_03.js"></script>
+        <script src="maps/lab_lvl_04.js"></script>
+        <script src="maps/lab_lvl_05.js"></script>
+        <script src="maps/lab_lvl_06.js"></script>
+        <script src="maps/lab_lvl_07.js"></script>
+        <script src="maps/lab_lvl_08.js"></script>
+        <script>
+            //PASTE CANVAS VARIABLES UNDER HERE
+            var canvas_name = "game"; var texture_dimensions = 7; var grid_height = 84; var grid_width = 98;
+            //PASTE TILES UNDER HERE
+            var tiles = [];
+            //push player tile
+            var player_tile = {x:0, y:0, type:'player', image:player, image_string:'player'};
+            tiles.push(player_tile);
+            var hitbox_tile = {x:0, y:0, type:'hitbox', image:hitbox, image_string:'hitbox'};
+            tiles.push(hitbox_tile);
+            
+            //canvas info
+            var canvas = document.getElementById(canvas_name);
+            var ctx = canvas.getContext("2d");
+            ctx.translate(canvas.width / 2,canvas.height / 2);
+            
+            //canvas dimensions
+            document.getElementById(canvas_name).width = grid_width;
+            document.getElementById(canvas_name).height = grid_height;
+            
+            //render stuff
+            var change_tile = 0;
+            var new_tile_num = 0;
+            window.setInterval(function(){ render(); }, 0);
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, 150, 100)
+            //window.setInterval(function(){ develop2(); }, 0);
+            function render() {
+                ctx.fillStyle = "#000000";
+                ctx.fill();
+                var new_tile_num = 0;
+                var num_of_tiles = tiles.length - 1;
+                var loop = true;
+                while (loop) {
+                    if (new_tile_num <= num_of_tiles) {
+                        change_tile = tiles[new_tile_num];
+                        change_tile.x = change_tile.x;
+                        change_tile.y = change_tile.y;
+                        ctx.imageSmoothingEnabled = false;
+                        real_time_tick();
+                        develop();
+                        change_tile = "";
+                        new_tile_num = new_tile_num + 1;
+                    } else {
+                        loop = false;
+                        
+                    }
+                }
+                develop2();
+                gui();
+            }
+            
+           
+            
+            //developer function
+            //NOTE: attributes of each tile are
+            //x:
+            //y:
+            //type:
+            
+            function develop() {
+                //hitbox
+                if (change_tile.type == "hitbox") {
+                    change_tile.x = player1_x;
+                    change_tile.y = player1_y;
+                }
+                //set character
+                set_character();
+                if (skeleton_move == true) {
+                    monster();
+                }
+                //this is the line that finally renders the tile
+                if (change_tile.spoof) {
+                    ctx.drawImage(change_tile.image, change_tile.x + grid_width/2 - player1_x, (change_tile.y - 7) + grid_height/2 - player1_y);
+                } else {
+                    ctx.drawImage(change_tile.image, change_tile.x + grid_width/2 - player1_x, change_tile.y + grid_height/2 - player1_y);
+                }
+                
+            }
+            
+            //develop 2 function, for things that dont affect how the tile needs to be placed mostly sometimes idk it's run every frame not every tick for this
+            var coord_tick_multiplier = 0;
+            var shoot_tick_multiplier = 0;
+            var skel_tick_multiplier = 0;
+            var skeleton_move = false;
+            var gameover = false;
+            
+            var playerspeed = 25;
+            
+            function develop2() {
+                //skeleton movement, delayed to tick
+                var skel_tick = tick - skel_tick_multiplier;
+                skeleton_move = false;
+                while (skel_tick > 50) {
+                    skel_tick = skel_tick - 50
+                    skeleton_move = true;
+                    skel_tick_multiplier = tick;
+                }
+                
+                //set coordinates, delayed to tick
+                var coord_tick = tick - coord_tick_multiplier;
+                while (coord_tick > playerspeed) {
+                    coord_tick = coord_tick - playerspeed;
+                    set_coordinates()
+                    coord_tick_multiplier = tick;
+                }
+                
+                //shoot movement, delayed to tick
+                var shoot_tick = tick - shoot_tick_multiplier;
+                while (shoot_tick > 10) {
+                    shoot_tick = shoot_tick - 10;
+                    shoot()
+                    shoot_tick_multiplier = tick;
+                }
+                
+                current_a_update();
+                
+                if (hp < 1 && hp != -137) {
+                    var level_died = level;
+                    localStorage.setItem("level_died", level_died);
+                    window.location = "index.html";
+                    hp = -137
+                    //var level_died = localStorage.getItem("level_died");
+                    
+                }
+                
+                startstartshoot();
+                
+            }
+            function monster() {
+                var monster_range = 7*6;
+                if (change_tile.type == "entity") {
+                    change_tile.spoof = true;
+                }
+                
+                if (change_tile.type == "entity" && !(change_tile.x + monster_range < player1_x || change_tile.x - monster_range > player1_x) && !(change_tile.y + monster_range < player1_y || change_tile.y - monster_range > player1_y)) {
+                    //!!!^
+                    if (change_tile.x > player1_x && monster_collision("west")) {
+                        change_tile.x = change_tile.x - 1;
+                    }
+                    if (change_tile.x < player1_x && monster_collision("east")) {
+                        change_tile.x = change_tile.x + 1;
+                    }
+                    if (change_tile.y > player1_y && monster_collision("north")) {
+                        change_tile.y = change_tile.y - 1;
+                    }
+                    if (change_tile.y < player1_y && monster_collision("south")) {
+                        change_tile.y = change_tile.y + 1;
+                    }
+                }
+                
+            }
+            function monster_collision(mlabeldir) {
+                var mnew_tile_num = 0;
+                var mnum_of_tiles = tiles.length;
+                var mloop = true;
+                while (mloop) {
+                    var found_coll;
+                    if (mnew_tile_num < mnum_of_tiles) {
+                        mchange_tile = tiles[mnew_tile_num];
+                        
+                        //get rid of this if/else its completely useless
+                        if (mloop) {
+                            
+                            var mcoord_spoof_x = 0;
+                            var mcoord_spoof_y = 0;
+                            if (mlabeldir == "south") {
+                                mcoord_spoof_y = 1;
+                            }
+                            if (mlabeldir == "north") {
+                                mcoord_spoof_y = 0 - 1;
+                            }
+                            if (mlabeldir == "west") {
+                                mcoord_spoof_x = 0 - 1;
+                            }
+                            if (mlabeldir == "east") {
+                                mcoord_spoof_x = 1;
+                            }
+                            
+                            //hitbox
+                            if (mchange_tile.type == "hitbox") {
+                                mchange_tile.x = player1_x;
+                                mchange_tile.y = player1_y;
+                            }
+                            
+                            if (mchange_tile.x < change_tile.x + 7 + mcoord_spoof_x && mchange_tile.x + 7 > change_tile.x + mcoord_spoof_x && mchange_tile.y < change_tile.y + 7 + mcoord_spoof_y && mchange_tile.y + 7 > change_tile.y + mcoord_spoof_y) {
+                                
+                                if (mchange_tile.type == "hitbox" || mchange_tile.type == "wall" || mchange_tile.type == "yellow_door" || mchange_tile.type == "red_door" || mchange_tile.type == "green_door" || mchange_tile.type == "orange_door" || mchange_tile.type == "storage" || (mchange_tile != change_tile && mchange_tile.type == "entity")) {
+                                    found_coll = true;
+                                    if (mchange_tile.type == "hitbox" && !god) {
+                                        hp = hp - 1;
+                                    }
+                                } else {
+                                    if (mchange_tile.type == "arrow") {
+                                        change_tile.x = 9999999;
+                                    }
+                                }
+                            }
+                        }
+                        mnew_tile_num = mnew_tile_num + 1;
+                    } else {
+                        mloop = false;
+                        if (found_coll) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            function set_character() {
+                if (change_tile.type == "player") {
+                    //set player coordinates to player tile
+                    change_tile.x = player1_x;
+                    change_tile.y = player1_y - 7;
+                    //set player directional texture
+                    if (direction == "south") {
+                        change_tile.image = player;
+                    }
+                    if (direction == "north") {
+                        change_tile.image = player_b;
+                    }
+                    if (direction == "west") {
+                        change_tile.image = player_l;
+                    }
+                    if (direction == "east") {
+                        change_tile.image = player_r;
+                    }
+                }
+                
+                
+            }
+            
+            function collision(labeldir) {
+                var new_tile_num = 0;
+                var num_of_tiles = tiles.length;
+                var loop = true;
+                while (loop) {
+                    if (new_tile_num < num_of_tiles) {
+                        change_tile = tiles[new_tile_num];
+                        
+                        //get rid of this if/else its completely useless
+                        if (loop) {
+                            
+                            var coord_spoof_x = 0;
+                            var coord_spoof_y = 0;
+                            if (south == true && labeldir == "south") {
+                                coord_spoof_y = 1;
+                            }
+                            if (north == true && labeldir == "north") {
+                                coord_spoof_y = 0 - 1;
+                            }
+                            if (west == true && labeldir == "west") {
+                                coord_spoof_x = 0 - 1;
+                            }
+                            if (east == true && labeldir == "east") {
+                                coord_spoof_x = 1;
+                            }
+                            if (change_tile.x < player1_x + 7 + coord_spoof_x && change_tile.x + 7 > player1_x + coord_spoof_x && change_tile.y < player1_y + 7 + coord_spoof_y && change_tile.y + 7 > player1_y + coord_spoof_y) {
+                                
+                                if (change_tile.type == "entity" || change_tile.type == "wall" || change_tile.type == "yellow_door" || change_tile.type == "red_door" || change_tile.type == "green_door" || change_tile.type == "orange_door" || change_tile.type == "storage") {
+                                    if (detect_key()) {
+                                        return true;
+                                    }
+                                }
+                                else if (change_tile.type == "yellow_key") {
+                                    change_tile.x = 99999999;
+                                    yellow = true;
+                                    return false;
+                                }
+                                else if (change_tile.type == "red_key") {
+                                    change_tile.x = 99999999;
+                                    red = true;
+                                    return false;
+                                }
+                                else if (change_tile.type == "green_key") {
+                                    change_tile.x = 99999999;
+                                    green = true;
+                                    return false;
+                                }
+                                else if (change_tile.type == "orange_key") {
+                                    change_tile.x = 99999999;
+                                    orange = true;
+                                    return false;
+                                }
+                                
+                                //weapon pickups
+                                else if (change_tile.type == "bow") {
+                                    bow = true;
+                                    bow_a = bow_a + 5;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "crossbow") {
+                                    crossbow = true;
+                                    crossbow_a = crossbow_a + 3;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "cannon") {
+                                    cannon = true;
+                                    cannon_a = cannon_a + 2;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "raycast") {
+                                    raycast = true;
+                                    raycast_a = raycast_a + 25;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                //ammo pickups
+                                else if (change_tile.type == "bow_ammo") {
+                                    bow_a = bow_a + 10;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "crossbow_ammo") {
+                                    crossbow_a = crossbow_a + 4;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "cannon_ammo") {
+                                    cannon_a = cannon_a + 5;
+                                    change_tile.x = 99999999;
+                                }
+                                
+                                else if (change_tile.type == "raycast_ammo") {
+                                    raycast_a = raycast_a + 100;
+                                    change_tile.x = 99999999;
+                                }
+                                //exit
+                                else if (change_tile.type == "exit_stairs") {
+                                    level = level + 1;
+                                    select_level(level);
+                                }
+                                //health
+                                else if (change_tile.type == "apple" && hp < 100) {
+                                    change_tile.x = 99999999;
+                                    hp = hp + 10;
+                                    if (hp > 100) {
+                                        hp = 100;
+                                    }
+                                }
+                            }
+                        }
+                        new_tile_num = new_tile_num + 1;
+                    } else {
+                        loop = false;
+                    }
+                }
+            }
+            
+            function detect_key() {
+                if (change_tile.type == "yellow_door" && key_test(yellow)) {
+                    return false;
+                } else if (change_tile.type == "red_door" && key_test(red)) {
+                    return false;
+                } else if (change_tile.type == "green_door" && key_test(green)) {
+                    return false;
+                } else if (change_tile.type == "orange_door" && key_test(orange)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            
+            //testfor keys
+            function key_test(color) {
+                if (color == true) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            //INDEPENDENTS\/
+            
+            //player 1 information
+            var level = 1;
+            //coordinates
+            var player1_x = 0;
+            var player1_y = -7;
+            //orientation
+            var direction = "south";
+            //health
+            var hp = 100;
+            //movement
+            var north = false;
+            var south = false;
+            var east = false;
+            var west = false;
+            //keys
+            var red = false;
+            var green = false;
+            var yellow = false;
+            var orange = false;
+            //shooting
+            var shooting = false;
+            //weapons
+            var hammer = true;
+            var bow = false;
+            var crossbow = false;
+            var cannon = false;
+            var raycast = false;
+            //weapon ammo
+            var hammer_a = "INF";
+            var bow_a = 0;
+            var crossbow_a = 0;
+            var cannon_a = 0;
+            var raycast_a = 0;
+            //weapon image
+            var imgweapon = imghammer;
+            //holding weapon
+            var weapon = "empty";
+            var current_ammo = hammer_a;
+            
+            //test for what key is down, set direction variable to it's direction and sets north/south/east/west to true
+            window.addEventListener("keydown", binds, false);
+            function binds(e) {
+                //ARROW KEYS
+                if (e.keyCode == "40") {
+                    //set south
+                    direction = "south";
+                    //south = true;
+                }
+                if (e.keyCode == "39") {
+                    //set east
+                    direction = "east";
+                    //east = true;
+                }
+                if (e.keyCode == "38") {
+                    //set north
+                    direction = "north";
+                    //north = true;
+                }
+                if (e.keyCode == "37") {
+                    //set west
+                    direction = "west";
+                    //west = true;
+                }
+                
+                //WASD
+                if (e.keyCode == "87") {
+                    //set north
+                    north = true;
+                }
+                if (e.keyCode == "83") {
+                    //set south
+                    south = true;
+                }
+                if (e.keyCode == "68") {
+                    //set west
+                    east = true;
+                }
+                if (e.keyCode == "65") {
+                    //set west
+                    west = true;
+                }
+                
+                //SHOOT
+                if (e.keyCode == "32") {
+                    shooting = true;
+                }
+                
+                //weapon select
+                if (e.keyCode == "49" && hammer == true) {
+                    weapon = "hammer";
+                    imgweapon = imghammer;
+                    current_ammo = hammer_a;
+                }
+                if (e.keyCode == "50" && bow == true) {
+                    weapon = "bow";
+                    imgweapon = imgbow;
+                    current_ammo = bow_a;
+                }
+                if (e.keyCode == "51" && crossbow == true) {
+                    weapon = "crossbow";
+                    imgweapon = imgcrossbow;
+                    current_ammo = crossbow_a
+                }
+                if (e.keyCode == "52" && cannon == true) {
+                    weapon = "cannon";
+                    imgweapon = imgcannon;
+                    current_ammo = cannon_a;
+                }
+                if (e.keyCode == "53" && raycast == true) {
+                    weapon = "raycast";
+                    imgweapon = imgraycaster;
+                    current_ammo = raycast_a;
+                }
+                
+                //console
+                if (e.keyCode == "192" || e.keyCode == "191") {
+                    cheats();
+                }
+            }
+            
+            function current_a_update() {
+                if (weapon == "hammer") {
+                    current_ammo = hammer_a;
+                }
+                if (weapon == "bow") {
+                    current_ammo = bow_a;
+                }
+                if (weapon == "crossbow") {
+                    current_ammo = crossbow_a;
+                }
+                if (weapon == "cannon") {
+                    current_ammo = cannon_a;
+                }
+                if (weapon == "raycast") {
+                    current_ammo = raycast_a;
+                }
+            }
+            //test for which key is no longer pressed and disable it
+            window.addEventListener("keyup", upbinds, false);
+            function upbinds(u) {                
+                //WASD
+                if (u.keyCode == "87") {
+                    //set north
+                    north = false;
+                }
+                if (u.keyCode == "83") {
+                    //set south
+                    south = false;
+                }
+                if (u.keyCode == "68") {
+                    //set west
+                    east = false;
+                }
+                if (u.keyCode == "65") {
+                    //set west
+                    west = false;
+                }
+                
+                //SHOOT
+                if (u.keyCode == "32") {
+                    shooting = false;
+                }
+            }
+            
+            //add coordinate by 1, depending on if the direction is true and if it doesn't collide
+            function set_coordinates() {
+                //north
+                if (north == true && (!collision("north") || noclip)) {
+                    player1_y = player1_y - 1;
+                }
+                //south
+                if (south == true && (!collision("south") || noclip)) {
+                    player1_y = player1_y + 1;
+                }
+                //east
+                if (east == true && (!collision("east") || noclip)) {
+                    player1_x = player1_x + 1;
+                }
+                //west
+                if (west == true && (!collision("west") || noclip)) {
+                    player1_x = player1_x - 1;
+                }
+                
+                
+            }
+            
+            //SHOOT
+            var cooldown = 0;
+            var startstart_tick_multiplier = 0;
+            function startstartshoot() {
+                if (shooting == true) {
+                var startstart_tick = tick - startstart_tick_multiplier;
+                if (startstart_tick > cooldown) {
+                    startshoot();
+                    startstart_tick_multiplier = tick;
+                }
+                }
+            }
+            
+            var velocity;
+            weapon = "hammer";
+            function startshoot() {
+                if ((current_ammo > 0 || (weapon == "hammer")) && shooting == true) {
+                    if (weapon == "hammer") {
+                        //inf ammo
+                        velocity = 0.5;
+                        cooldown = 300;
+                        weapon_damage = 10;
+                    }
+                    if (weapon == "bow") {
+                        bow_a = bow_a - 1;
+                        current_ammo = bow_a
+                        velocity = 1;
+                        cooldown = 200;
+                        weapon_damage = 5;
+                    }
+                    if (weapon == "crossbow") {
+                        crossbow_a = crossbow_a - 1;
+                        current_ammo = crossbow_a
+                        velocity = 5;
+                        cooldown = 1500;
+                        weapon_damage = 30;
+                    }
+                    if (weapon == "cannon") {
+                        cannon_a = cannon_a - 1;
+                        current_ammo = cannon_a
+                        velocity = 0.5;
+                        cooldown = 500;
+                        weapon_damage = 100;
+                    }
+                    if (weapon == "raycast") {
+                        raycast_a = raycast_a - 1;
+                        current_ammo = raycast_a;
+                        velocity = 6;
+                        cooldown = 5;
+                        weapon_damage = 5;
+                    }
+                    
+                    var projectile_image;
+                    if (weapon == "hammer") {
+                        projectile_image = imghammer;
+                    }
+                    
+                    if (weapon == "bow" || weapon == "crossbow") {
+                        if (direction == "north") {
+                            projectile_image = arrow_n;
+                        }
+                        else if (direction == "south") {
+                            projectile_image = arrow_s;
+                        }
+                        else if (direction == "east") {
+                            projectile_image = arrow_e;
+                        }
+                        else if (direction == "west") {
+                            projectile_image = arrow_w;
+                        }
+                    }
+                    if (weapon == "cannon") {
+                        projectile_image = cannonball;
+                    }
+                    if (weapon == "raycast") {
+                        if (direction == "north" || direction == "south") {
+                            projectile_image = lazer_ns;
+                        }
+                        if (direction == "east" || direction == "west") {
+                            projectile_image = lazer_ew;
+                        }
+                    }
+                    
+                    tiles[tiles.length] = {x:player1_x, y:player1_y, type:"arrow", dir:direction, image:projectile_image, image_string:'idk', vel:velocity, proj_weapon:weapon, distance:0, damage:weapon_damage}//!!!add new atrribute weapon:"bow","crossbow"etc, and maybe "velocity" and "damage"
+                    //shooting = false;
+                    //setTimeout(function(){ shoot(); }, 100);
+                }
+            }
+            
+            
+            //10
+            function shoot() {
+                var snew_tile_num = 0;
+                var snum_of_tiles = tiles.length;
+                var sloop = true;
+                while (sloop) {
+                    if (snew_tile_num < snum_of_tiles) {
+                        change_tile = tiles[snew_tile_num];
+                        if (change_tile.type == "arrow") {
+                            change_tile.distance = change_tile.distance + change_tile.vel;
+                            if (change_tile.proj_weapon == "hammer" && change_tile.distance == 7) {
+                                change_tile.x = 9999999;
+                            }
+                            
+                            
+                            if (change_tile.dir == "north") {
+                                //change_tile.image = arrow_n;
+                                change_tile.y = change_tile.y - change_tile.vel;
+                            }
+                            else if (change_tile.dir == "south") {
+                                //change_tile.image = arrow_s;
+                                change_tile.y = change_tile.y + change_tile.vel;
+                            }
+                            else if (change_tile.dir == "east") {
+                                //change_tile.image = arrow_e;
+                                change_tile.x = change_tile.x + change_tile.vel;
+                            }
+                            else if (change_tile.dir == "west") {
+                                //change_tile.image = arrow_w;
+                                change_tile.x = change_tile.x - change_tile.vel;
+                            }
+                            
+                            var snew_tile_num2 = 0;
+                            var snum_of_tiles2 = tiles.length;
+                            var sloop2 = true;
+                            while (sloop2) {
+                                if (snew_tile_num2 < snum_of_tiles2) {
+                                    wall_tile = tiles[snew_tile_num2];
+                                    if (wall_tile.type == "wall") {
+                                        if (change_tile.x < wall_tile.x + 7 && change_tile.x + 7 > wall_tile.x && change_tile.y < wall_tile.y + 7 && change_tile.y + 7 > wall_tile.y) {
+                                            change_tile.x = 99999999;
+                                            change_tile.y = 99999999;
+                                            change_tile.type = "deleted arrow";
+                                        }
+                                    }
+                                snew_tile_num2 = snew_tile_num2 + 1;
+                                } else {
+                                    sloop2 = false;
+                                }
+                            }
+                        }
+                        
+                        
+                        
+                    snew_tile_num = snew_tile_num + 1;
+                    } else {
+                        sloop = false;
+                    }
+                }
+            }
+            
+            var start_tick = 0;
+            var tick = 1;
+            function real_time_tick() {
+                if (start_tick == 0) {
+                    start_tick = Date.now();
+                }
+                tick = Date.now() - start_tick;
+                //console.log(tick);
+            }
+            
+
+            ctx.rect(0, 75, 98, 75);
+            function gui() {
+                //draw health
+                ctx.drawImage(health,1,76);
+                ctx.font = "9px Verdana";
+                ctx.fillStyle = "white";
+                if (hp < 0) {
+                    ctx.fillText("0", 9, 83);
+                } else {
+                    ctx.fillText(hp + "", 9, 83);
+                }
+                ctx.fillText("Level: " + level, 1, 10)
+                
+                //draw ammo
+                ctx.drawImage(imgweapon,30,76);
+                ctx.font = "9px Verdana";
+                ctx.fillStyle = "white";
+                ctx.fillText(current_ammo + "", 38, 83);
+                
+                if (red == true) {
+                    ctx.drawImage(redkey,59,76);
+                }
+                if (yellow == true) {
+                    ctx.drawImage(yellowkey,69,76);
+                }
+                if (orange == true) {
+                    ctx.drawImage(orangekey,79,76);
+                }
+                if (green == true) {
+                    ctx.drawImage(greenkey,89,76);//changed _ to no underscore
+                }
+                
+            }
+            
+            function load_level(lvlname, lvlstring) {
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                red = false;
+                green = false;
+                yellow = false;
+                orange = false;
+                
+                var head = document.getElementsByTagName('head')[0];
+                var script = document.createElement('script');
+                script.src = 'maps/'+ lvlstring +'.js';
+                head.appendChild(script);
+                //https://stackoverflow.com/questions/9642205/how-to-force-a-script-reload-and-re-execute
+                //this took me a solid day to figure out holy cow why do object arrays not work like how they logically should.
+                
+                
+                tiles = lvlname;
+                var player_tile = {x:0, y:0, type:'player', image:player, image_string:'player'}; tiles.push(player_tile);
+                var hitbox_tile = {x:0, y:0, type:'hitbox', image:hitbox, image_string:'hitbox'}; tiles.push(hitbox_tile);
+                //var spawn_tile = {x:-203, y:-133, type:'enter_stairs', image:playerspawn, image_string:'spawnpoint'}; tiles.push(spawn_tile);
+                
+                var spawn_change_tile;
+                var spawn_new_tile_num = 0;
+                var spawn_num_of_tiles = tiles.length - 1;
+                var spawn_loop = true;
+                while (spawn_loop) {
+                    if (spawn_new_tile_num <= spawn_num_of_tiles) {
+                        spawn_change_tile = tiles[spawn_new_tile_num];
+                        
+                        if (spawn_change_tile.type == "enter_stairs") {
+                            player1_x = spawn_change_tile.x
+                            player1_y = spawn_change_tile.y
+                        }
+                        
+                        spawn_new_tile_num = spawn_new_tile_num + 1;
+                    } else {
+                        spawn_loop = false;
+                        
+                    }
+                }
+            }
+            
+            function select_level(num) {
+                
+                if (num == 0) {
+                    load_level(lab_lvl_00, "lab_lvl_00");
+                }
+                if (num == 1) {
+                    load_level(lab_lvl_01, "lab_lvl_01");
+                }
+                if (num == 2) {
+                    load_level(lab_lvl_02, "lab_lvl_02");
+                }
+                if (num == 3) {
+                    load_level(lab_lvl_03, "lab_lvl_03");
+                }
+                if (num == 4) {
+                    load_level(lab_lvl_04, "lab_lvl_04");
+                }
+                if (num == 5) {
+                    load_level(lab_lvl_05, "lab_lvl_05");
+                }
+                if (num == 6) {
+                    load_level(lab_lvl_06, "lab_lvl_06");
+                }
+                if (num == 7) {
+                    load_level(lab_lvl_07, "lab_lvl_07");
+                }
+                if (num == 8) {
+                    load_level(lab_lvl_08, "lab_lvl_08");
+                }
+            }
+            
+            
+            var god = false;
+            var noclip = false;
+            function cheats() {
+                var code = prompt("Console:")
+                if (code == "qgskfa") {
+                    console.log("hey");
+                    hammer = true;
+                    bow = true;
+                    crossbow = true;
+                    cannon = true;
+                    raycast = true;
+                    
+                    red = true;
+                    green = true;
+                    yellow = true;
+                    orange = true;
+                    
+                    bow_a = 9999;
+                    crossbow_a = 9999;
+                    cannon_a = 9999;
+                    raycast_a = 9999;
+                }
+                
+                if (code == "qgsdqd") {
+                    god = true;
+                }
+                
+                if (code == "phoon") {
+                    playerspeed = 5;
+                }
+                
+                if (code == "emmalyn") {
+                    noclip = true;
+                }
+            }
+            
+            
+            
+             //demo code
+            //var level_died = level;
+            //localStorage.setItem("level_died", level_died);
+            level = Number(localStorage.getItem("level_select_screen"));
+            
+            select_level(level)
+            //player1_x = -203;
+            //player1_y = -133;
+        </script>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="styles.css">
+	<link href="https://fonts.googleapis.com/css?family=MedievalSharp" rel="stylesheet">
+</head>
+
+<body>
+<div class="header">	
+	<img class="header" src="logo.gif" alt="thanks cooltext.com" >
+</div>
+<div class="options">
+	<p onclick="play()">PLAY</p>
+	<p onclick="select()">LEVEL SELECT</p>
+    <p onclick="credits()">CREDITS</p>
+</div>
+<script>
+    function play() {
+        var level_select_screen = 0;
+        localStorage.setItem("level_select_screen", level_select_screen);
+        window.location = "engine.html";
+        
+    }
+    function select() {
+        window.location = "select.html";
+    }
+    
+    function credits() {
+        window.location = "credits.html";
+    }
+</script>
+</body>
+</html>

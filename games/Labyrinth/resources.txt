@@ -1,0 +1,73 @@
+Tile Types:
+//so far, these are the types that are recognized by the game code. place any other types not listed under here and they will be added.
+
+//background
+	dark
+//wall
+	wall
+//door
+	door
+//colored doors
+	yellow_door
+	red_door
+	green_door
+	orange_door
+//keys
+	yellow_key
+	red_key
+	green_key
+	orange_key
+//weapons
+	bow
+	crossbow
+	cannon
+	raycast
+//ammo
+	bow_ammo
+	crossbow_ammo
+	cannon_ammo
+	raycast_ammo
+//for technical use, probably don't place these
+	player
+	arrow
+	deleted_arrow
+
+Tile Images:
+	Name:		Source:
+
+	stone		images/stone.bmp
+	dark		images/dark.bmp
+	stone_bricks	images/stone_bricks.bmp
+	wood		images/wood.bmp
+	barrel		images/barrel.bmp
+	chest		images/chest.bmp
+	monster		images/monster.bmp
+	door		images/door.bmp
+	yellow_door	images/yellow_door.bmp
+	red_door	images/red_door.bmp
+	green_door	images/green_door.bmp
+	orange_door	images/orange_door.bmp
+	yellow_key	images/yellow_key.png
+	red_key		images/red_key.png
+	green_key	images/green_key.png
+	orange_key	images/orange_key.png
+	playerspawn	images/player_spawn.bmp
+	imgbow		images/bow.png
+	imgcrossbow	images/crossbow.png
+	imgcannon	images/cannon.png
+	imgraycaster	images/raycaster.png
+//you probably dont need to use these
+	arrow_n		images/arrow_n.png
+	arrow_s		images/arrow_s.png
+	arrow_e		images/arrow_e.png
+	arrow_w		images/arrow_w.png
+	cannonball	images/cannonball.png
+	lazer_ns	images/lazer_ns.png
+	lazer_ew	images/lazer_ew.png
+	health		images/health.png
+	imghammer	images/hammer.png
+	player		images/player_front.png
+	player_b	images/player_back.png
+	player_r	images/player_right.png
+	player_l	images/player_left.png
+

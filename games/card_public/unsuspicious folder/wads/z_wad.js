@@ -1,0 +1,1 @@
+image_array = ["zombie2","zombie_d","zombie2_d"]; dir_array = ["images/card/zombie2.png","images/card/zombie_d.png","images/card/zombie2_d.png"]; load_assets_2();

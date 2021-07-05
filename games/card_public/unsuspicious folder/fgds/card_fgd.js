@@ -1,0 +1,1 @@
+type_array = ["background","clipping","pushable","player","monster","gun","moveclip","guy","words","signtrigger","yelltrigger","endtrigger"]; sub_array = []; load_fgd_2();

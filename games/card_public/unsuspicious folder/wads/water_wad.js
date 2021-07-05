@@ -1,0 +1,1 @@
+image_array = ["conc","water"]; dir_array = ["images/card/conc.png","images/card/water.png"]; load_assets_2();

@@ -82,6 +82,7 @@
             //RENDER FUNCTION
             var change_tile;
             function render() {
+                execute2();
                 //render tiles
                 
                 var layer;
@@ -131,7 +132,6 @@
                 real_time_tick();
                 
                 //gamephys();
-                execute2()
                 //example
                 executer(execute2, 1000, execute2mult);
                 executer(execute, 10, executemult);
